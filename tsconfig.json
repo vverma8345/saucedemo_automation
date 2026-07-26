@@ -1,0 +1,17 @@
+{
+  "compilerOptions": {
+    "module": "CommonJS",
+    "moduleResolution": "node",
+    "ignoreDeprecations": "6.0",
+    "target": "ES2022",
+    "types": [
+      "node",
+      "@playwright/test"
+    ]
+  },
+  "include": [
+    "tests/**/*.ts",
+    "custom-report/**/*.ts",
+    "playwright.config.ts"
+  ]
+}

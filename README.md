@@ -1,0 +1,1 @@
+npx ts-node custom-report/generate-html-report.ts
