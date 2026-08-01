@@ -2,6 +2,7 @@ import { expect, test } from '@playwright/test';
 import LoginPage from '../pages/login.page';
 import ProductsPage from '../pages/products.page';
 import CheckoutPage from '../pages/checkout.page';
+import { log } from 'console';
 
 test('Checkout flow with valid user', async ({ page }) => {
     const loginPage = new LoginPage(page);
@@ -9,19 +10,33 @@ test('Checkout flow with valid user', async ({ page }) => {
     const checkoutPage = new CheckoutPage(page);
 
     await page.goto(process.env.APP_URL!);
+    log('info', 'Navigating to the application URL');
     await loginPage.login(process.env.TEST_USER_NAME!, process.env.TEST_PASSWORD!);
+    log('info', 'Attempting login with valid credentials');
     await loginPage.verifySuccessfulLogin();
+    log('info', 'Valid login attempt completed');
     await productsPage.verifyProductPage();
+    log('info', 'Product page verified & product added to cart');
     await productsPage.addProductToCart();
     await productsPage.verifyProductAddedToCart();
     await productsPage.clickCartIcon();
+    log('info', 'Navigating to the cart page & verifying the cart page');
+    await productsPage.verifyCartPage();
     await checkoutPage.clickOnCheckoutBtn();
+    log('info', 'Navigating to the checkout page');
     await checkoutPage.verifyCheckoutStepOnePage();
     await checkoutPage.enterCustomerInfo('John', 'Doe', '12345');
+    log('info', 'Customer information entered');
     await checkoutPage.clickContinue();
+    log('info', 'Continuing to checkout step two');
     await expect(page).toHaveURL(/checkout-step-two\.html/);
+    log('info', 'Checkout step two page verified');
     await checkoutPage.verifyCheckoutStepTwoPage();
     await checkoutPage.verifyProductDetails('Sauce Labs Backpack', '$29.99', 'Total: $32.39');
+    log('info', 'Product details verified');
     await checkoutPage.clickFinishOrder();
+    log('info', 'Finishing the order');
+    await expect(page).toHaveURL(/checkout-complete\.html/);
+    log('info', 'Order confirmation page verified');
     await checkoutPage.verifyOrderConfirmationPage();   
 });

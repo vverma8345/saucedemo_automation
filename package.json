@@ -8,7 +8,6 @@
     "custom-report": "npx ts-node custom-report/generate-html-report.ts && open custom-report/custom-report.html",
     "login:report": "npx playwright test tests/login.spec.ts --headed; npx ts-node custom-report/generate-html-report.ts && open custom-report/custom-report.html",
     "checkout:report": "npx playwright test tests/checkout.spec.ts --headed; npx ts-node custom-report/generate-html-report.ts && open custom-report/custom-report.html"
-
   },
   "keywords": [
     "playwright",
@@ -17,6 +16,7 @@
   "author": "vimal verma",
   "license": "ISC",
   "dependencies": {
+    "chalk": "^6.0.0",
     "dotenv": "^17.4.2",
     "playwright": "^1.62.0"
   },
