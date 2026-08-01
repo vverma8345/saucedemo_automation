@@ -6,7 +6,9 @@
   "scripts": {
     "login": "npx playwright test tests/login.spec.ts --headed",
     "custom-report": "npx ts-node custom-report/generate-html-report.ts && open custom-report/custom-report.html",
-    "login:report": "npx playwright test tests/login.spec.ts --headed; npx ts-node custom-report/generate-html-report.ts && open custom-report/custom-report.html"
+    "login:report": "npx playwright test tests/login.spec.ts --headed; npx ts-node custom-report/generate-html-report.ts && open custom-report/custom-report.html",
+    "checkout:report": "npx playwright test tests/checkout.spec.ts --headed; npx ts-node custom-report/generate-html-report.ts && open custom-report/custom-report.html"
+
   },
   "keywords": [
     "playwright",
