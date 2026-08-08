@@ -1,3 +1,4 @@
+groovy
 pipeline {
 
     agent any
@@ -37,6 +38,47 @@ pipeline {
                 sh 'npx ts-node custom-report/generate-html-report.ts'
             }
         }
+
+        stage('Verify Custom Report') {
+            steps {
+                sh '''
+                    echo "======================================"
+                    echo "REPORT FILES"
+                    echo "======================================"
+                    ls -lah custom-report/
+
+                    echo ""
+                    echo "======================================"
+                    echo "HTML FILE SIZE"
+                    echo "======================================"
+                    wc -c custom-report/custom-report.html
+
+                    echo ""
+                    echo "======================================"
+                    echo "HTML START"
+                    echo "======================================"
+                    head -40 custom-report/custom-report.html
+
+                    echo ""
+                    echo "======================================"
+                    echo "CHECK CSS"
+                    echo "======================================"
+                    grep -n "<style>" custom-report/custom-report.html || true
+
+                    echo ""
+                    echo "======================================"
+                    echo "CHECK CHART"
+                    echo "======================================"
+                    grep -n "Chart\\|canvas\\|chart.js" custom-report/custom-report.html || true
+
+                    echo ""
+                    echo "======================================"
+                    echo "CHECK TEST RESULTS"
+                    echo "======================================"
+                    grep -n "Checkout flow\\|Login with invalid\\|Login with valid" custom-report/custom-report.html || true
+                '''
+            }
+        }
     }
 
     post {
@@ -49,7 +91,7 @@ pipeline {
             )
 
             publishHTML(target: [
-                allowMissing: true,
+                allowMissing: false,
                 alwaysLinkToLastBuild: true,
                 keepAll: true,
                 reportDir: 'custom-report',
@@ -59,3 +101,4 @@ pipeline {
         }
     }
 }
+
