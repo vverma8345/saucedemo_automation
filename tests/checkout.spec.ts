@@ -4,7 +4,7 @@ import ProductsPage from '../pages/products.page';
 import CheckoutPage from '../pages/checkout.page';
 import { log } from 'console';
 
-test.fail('Checkout flow with valid user', async ({ page }) => {
+test('Checkout flow with valid user', async ({ page }) => {
     const loginPage = new LoginPage(page);
     const productsPage = new ProductsPage(page);
     const checkoutPage = new CheckoutPage(page);
