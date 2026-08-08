@@ -1,4 +1,3 @@
-```groovy
 pipeline {
 
     agent any
@@ -70,12 +69,6 @@ pipeline {
                     echo "CHECK CHART"
                     echo "======================================"
                     grep -n "Chart\\|canvas\\|chart.js" custom-report/custom-report.html || true
-
-                    echo ""
-                    echo "======================================"
-                    echo "CHECK TEST RESULTS"
-                    echo "======================================"
-                    grep -n "Checkout flow\\|Login with invalid\\|Login with valid" custom-report/custom-report.html || true
                 '''
             }
         }
@@ -101,4 +94,3 @@ pipeline {
         }
     }
 }
-```
