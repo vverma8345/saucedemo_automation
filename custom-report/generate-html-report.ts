@@ -16,10 +16,14 @@ interface ReportData {
   runDate: string;
   results: TestResult[];
   totalCount: number;
+  totalPassed: number;
+  totalFailed: number;
+  totalSkipped: number;
+  totalTimedOut: number;
 }
 
 function generateHtmlReport(data: ReportData): string {
-  const { appName, browserName, runDate,totalCount, results } = data;
+  const { appName, browserName, runDate,totalCount, results, totalPassed, totalFailed, totalSkipped, totalTimedOut } = data;
 
   const passedTests = results.filter(
     result => result.status === 'passed'
@@ -46,6 +50,8 @@ function generateHtmlReport(data: ReportData): string {
 <title>Test Report</title>
 
 <style>
+
+
   h1 {
     text-align: center;
   }
@@ -90,10 +96,78 @@ function generateHtmlReport(data: ReportData): string {
     margin: auto;
   }
 
-  .testreportchart {
+.testreportchart {
     display: flex;
     flex-direction: row;
-  }
+    align-items: center;
+    justify-content: space-between;
+    width: 100%;
+    gap: 30px;
+    margin-bottom: 10px;
+}
+
+
+.report {
+    width: 55%;
+}
+
+.chart-container {
+    width: 40%;
+    max-width: 400px;
+    height: 320px;
+    display: flex; 
+    justify-content: center;
+    align-items: center;
+}
+
+
+.chart-container canvas {
+    max-width: 100%;
+    max-height: 320px;
+}
+
+  
+.test-counts {
+    width: 55%;
+    margin-top: 10px;
+    margin-bottom: 20px;
+}
+
+.test-counts table {
+    width: 100%;
+    border-collapse: collapse;
+}
+
+.test-counts th,
+.test-counts td {
+    border: 1px solid #ddd;
+    padding: 12px;
+    text-align: center;
+}
+
+.test-counts th {
+    background-color: #f2f2f2;
+}
+
+.test-counts td {
+    font-size: 30px;
+    font-weight: bold;
+}
+.passed {
+    color: MediumSeaGreen;
+}
+
+.failed {
+    color: Tomato;
+}
+
+.skipped {
+    color: Gray;
+}
+
+.timedOut {
+    color: SlateBlue;
+}
 </style>
 
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -119,18 +193,32 @@ function generateHtmlReport(data: ReportData): string {
         <th>Test Run Date</th>
         <td>${runDate}</td>
       </tr>
-      <tr>
-        <th>Total Tests</th>
-        <td>${totalCount}</td>
-      </tr>
     </table>
   </div>
-
+  
   <div class="chart-container">
     <canvas id="testResultsChart"></canvas>
   </div>
 
 </div>
+<div class="test-counts">
+    <table>
+    <tr>
+        <th>Total Tests</th>
+        <th>Passed</th>
+        <th>Failed</th>
+        <th>Skipped</th>
+        <th>Timed Out</th>
+      </tr>
+        <td>${totalCount}</td>
+        <td class="passed" style="color: MediumSeaGreen;">${passedTests}</td>
+        <td class="failed" style="color: Tomato;">${failedTests}</td>
+        <td class="skipped" style="color: Gray;">${skippedTests}</td>
+        <td class="timedOut" style="color: SlateBlue;">${timedOutTests}</td>
+      <tr>
+      </tr>
+    </table>
+  </div>
 
 <table>
 
